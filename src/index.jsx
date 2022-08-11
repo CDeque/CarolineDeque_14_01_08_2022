@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Footer from "./components/Footer";
 import Header from "./components/Header";
 import EmployeeList from "./pages/EmployeeList";
 import Home from "./pages/Home";
@@ -17,7 +16,6 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="/employeeList" element={<EmployeeList />} />
       </Routes>
-      {/* <Footer /> */}
     </Router>
   </React.StrictMode>
 );
