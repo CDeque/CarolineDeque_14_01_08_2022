@@ -5,63 +5,192 @@ import { faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 import { departments } from "../../data/departments";
 import { states } from "../../data/states";
 import colors from "../../utils/style/colors";
-import Dropdown from "../Dropdown";
+import { useState } from "react";
+import Modal from "../Modal";
 
 /**
- * @returns create Employees Form
+ * @returns create employeess Form
+ * store employee
+ * reset form on submit
  */
 
 export default function Form() {
+  // set a initial state
+  const initialState = {
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    startDate: "",
+    street: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    department: "",
+  };
+
+  const [getData, setGetData] = useState(initialState);
+  console.log(getData);
+
+  //Handle change on input in the state
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setGetData((formData) => {
+      return {
+        ...formData,
+        [name]: value,
+      };
+    });
+  };
+
+  // Get Employee Data
+  let employeeData = JSON.parse(localStorage.getItem("newEmployee"));
+
+  // To display modal on form validation
+  const [displayModal, setDisplayModal] = useState(false);
+  const showModal = () => {
+    setDisplayModal(true);
+  };
+  // To close the modal
+  const closeModal = () => {
+    setDisplayModal(false);
+  };
+  //handle submit function
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    employeeData = employeeData || [];
+    employeeData.push(getData);
+    console.log(employeeData);
+
+    //Store employees data in the localStorage
+    localStorage.setItem("newEmployee", JSON.stringify(employeeData));
+
+    // return to initial state when submitted
+    setGetData({ ...initialState });
+    showModal();
+  };
+
   return (
     <FormContainer className="form_container">
       <UserContainer className="user_container">
         <FontAwesomeIcon icon={faPlus} fontSize="2rem" color="#6e8415" />
         <FontAwesomeIcon icon={faUser} fontSize="3rem" color="#6e8415" />
       </UserContainer>
-      <Label htmlFor="firstname">Firstname:</Label>
-      <Input type="text" placeholder="Firstname..." />
-      <Label htmlFor="lastname">Lastname:</Label>
-      <Input type="text" placeholder="Lastname..." />
-      <Label htmlFor="date of birth">Date of Birth</Label>
-      <Input type="date" placeholder="Date of Birth" />
-      <Label htmlFor="Start Date">Start Date</Label>
-      <Input type="date" placeholder="Start Date" />
-      <AddressContainer className="address">
-        <Address>Adress</Address>
-        <Label htmlFor="street">Street:</Label>
-        <Input type="text" placeholder="Street..." />
-        <Label htmlFor="city">City:</Label>
-        <Input type="text" placeholder="City..." />
-        <StateContainer className="state_container">
-          <Label htmlFor="state">State:</Label>
-          <Dropdown
-            className="state_dropdown"
-            title="Alabama"
-            list={states.map((state, index) => (
-              <DropdownItems className="items" key={index}>
-                {state.name}
-              </DropdownItems>
-            ))}
+      <form onSubmit={handleSubmit}>
+        <Label htmlFor="firstName">Firstname:</Label>
+        <Input
+          type="text"
+          placeholder="Firstname..."
+          pattern="[A-Za-z]*"
+          onChange={handleChange}
+          name="firstName"
+          value={getData.firstName}
+          required
+        />
+        <Label htmlFor="lastname">Lastname:</Label>
+        <Input
+          type="text"
+          placeholder="Lastname..."
+          pattern="[A-Za-z]*"
+          onChange={handleChange}
+          name="lastName"
+          value={getData.lastName}
+          required
+        />
+        <Label htmlFor="date of birth">Date of Birth</Label>
+        <InputDate
+          type="date"
+          onChange={handleChange}
+          name="birthDate"
+          value={getData.birthDate}
+          required
+        />
+        <Label htmlFor="Start Date">Start Date</Label>
+        <InputDate
+          type="date"
+          placeholder="Start Date"
+          onChange={handleChange}
+          name="startDate"
+          value={getData.startDate}
+          required
+        />
+        <AddressContainer className="address">
+          <Address>Adress</Address>
+          <Label htmlFor="street">Street:</Label>
+          <Input
+            type="text"
+            placeholder="Street..."
+            pattern="[A-Za-z]*"
+            onChange={handleChange}
+            name="street"
+            value={getData.street}
+            required
           />
-        </StateContainer>
-        <Label htmlFor="Zip Code">Zip Code:</Label>
-        <Input type="number" placeholder="Zip Code..." />
-        <DepartmentContainer className="departmentContainer">
-          <Label htmlFor="department">Department:</Label>
-          <Dropdown
-            className="department_dropdown"
-            title="Sales"
-            list={departments.map((department, index) => (
-              <DropdownItems className="items" key={index}>
-                {department.name}
-              </DropdownItems>
-            ))}
+          <Label htmlFor="city">City:</Label>
+          <Input
+            type="text"
+            placeholder="City..."
+            pattern="[A-Za-z]*"
+            onChange={handleChange}
+            name="city"
+            value={getData.city}
+            required
           />
-        </DepartmentContainer>
+
+          <StateContainer className="state_container">
+            <Label htmlFor="stateLabel">State:</Label>
+            <Select
+              name="state"
+              value={getData.state}
+              onChange={handleChange}
+              required
+            >
+              <option></option>
+              {states.map((state, index) => (
+                <Options className="items" key={index}>
+                  {state.name}
+                </Options>
+              ))}
+            </Select>
+          </StateContainer>
+
+          <Label htmlFor="Zip Code">Zip Code:</Label>
+          <Input
+            type="text"
+            placeholder="Zip Code..."
+            pattern="[0-9]*"
+            onChange={handleChange}
+            name="zipCode"
+            value={getData.zipCode}
+            required
+          />
+
+          <DepartmentContainer className="departmentContainer">
+            <Label htmlFor="departmentLabel">Department:</Label>
+            <Select
+              name="department"
+              value={getData.department}
+              onChange={handleChange}
+              required
+            >
+              <option></option>
+              {departments.map((department, index) => (
+                <Options className="items" key={index}>
+                  {department.name}
+                </Options>
+              ))}
+            </Select>
+          </DepartmentContainer>
+        </AddressContainer>
         <SaveBtnContainer className="savebtn_container">
           <SaveBtn className="save_btn">Save</SaveBtn>
+          {displayModal && (
+            <Modal
+              text={"Employee successfully created!"}
+              closeModal={closeModal}
+            />
+          )}
         </SaveBtnContainer>
-      </AddressContainer>
+      </form>
     </FormContainer>
   );
 }
@@ -103,16 +232,45 @@ const Input = styled.input`
     font-size: 12px;
   }
 `;
+const InputDate = styled.input`
+  width: 21.3rem;
+  border: none;
+  border-bottom: 1.5px solid ${colors.secondary};
+  colo ::placeholder {
+    color: ${colors.secondary};
+    opacity: 0.4;
+    font-size: 12px;
+  }
+`;
 const AddressContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
+  padding: 5px;
+  border-bottom: 2px solid ${colors.primary};
+  width: 100%;
 `;
 const Address = styled.p`
-  width: 50px;
+  width: 350px;
   font-size: 16px;
-  color: ${colors.primary};
-  border-bottom: 2px solid ${colors.primary};
+  font-weight: 700;
+  display: inline-block;
+  color: ${colors.secondary};
+  border-bottom: 2px solid ${colors.secondary};
+`;
+const Select = styled.select`
+  width: 14rem;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 5px;
+  color: ${colors.white};
+  font-size: 16px;
+  font-weight: 500;
+  background-color: ${colors.terciary};
+  border: solid 2px ${colors.secondary};
+  border-radius: 3px;
 `;
 const StateContainer = styled.div`
   display: flex;
@@ -125,9 +283,10 @@ const DepartmentContainer = styled.div`
   align-items: baseline;
   justify-content: space-between;
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
-const DropdownItems = styled.li`
+const Options = styled.option`
   margin-top: 2px; ;
 `;
 const SaveBtn = styled.button`
