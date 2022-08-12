@@ -27,7 +27,7 @@ function CustomToolbar() {
 }
 
 export default function DataTable() {
-  const employeeData = JSON.parse(localStorage.getItem("newEmployee"));
+  const employeeData = JSON.parse(localStorage.getItem("newEmployee")) || [];
 
   return (
     <DataTableContainer className="table_container">
