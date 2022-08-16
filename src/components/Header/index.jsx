@@ -18,7 +18,7 @@ export default function Header() {
         <H1 className="main_title">Wealth Health</H1>
       </StyledLink>
       <NavRightContainer className="nav_right_container">
-        <H3 className="HRnet_title">HRnet</H3>
+        <H2 className="HRnet_title">HRnet</H2>
         {url.pathname === "/" ? (
           <EmployeePageLink to={"/employeeList"} className="Employee_page_link">
             Current Employees
@@ -50,7 +50,9 @@ const StyledLink = styled(NavLink)`
   text-decoration: none;
 `;
 const MainLogo = styled.img`
-  width: 110px;
+  width: 70px;
+  height: 70px;
+  margin-right: 20px;
 `;
 const NavRightContainer = styled.div`
   width: 500px;
@@ -63,7 +65,7 @@ const H1 = styled.h1`
   font-size: 35px;
   margin-left: -10px;
 `;
-const H3 = styled.h3``;
+const H2 = styled.h2``;
 const EmployeePageLink = styled(NavLink)`
   text-decoration: none;
   color: ${colors.primary};

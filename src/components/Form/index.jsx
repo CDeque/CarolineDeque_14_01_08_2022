@@ -6,7 +6,7 @@ import { departments } from "../../data/departments";
 import { states } from "../../data/states";
 import colors from "../../utils/style/colors";
 import { useState } from "react";
-import Modal from "../Modal";
+import Modal from "cd-modal-14";
 
 /**
  * @returns create employeess Form
@@ -16,6 +16,7 @@ import Modal from "../Modal";
 
 export default function Form() {
   // set a initial state
+  console.log(Modal);
   const initialState = {
     firstName: "",
     lastName: "",
@@ -43,7 +44,7 @@ export default function Form() {
   };
 
   // Get Employee Data
-  let employeeData = JSON.parse(localStorage.getItem("newEmployee"));
+  let employeeData = JSON.parse(localStorage.getItem("newEmployee")) || [];
 
   // To display modal on form validation
   const [displayModal, setDisplayModal] = useState(false);
@@ -72,113 +73,137 @@ export default function Form() {
   return (
     <FormContainer className="form_container">
       <UserContainer className="user_container">
-        <FontAwesomeIcon icon={faPlus} fontSize="2rem" color="#6e8415" />
-        <FontAwesomeIcon icon={faUser} fontSize="3rem" color="#6e8415" />
+        <FontAwesomeIcon icon={faPlus} fontSize="2rem" color="#000000" />
+        <FontAwesomeIcon icon={faUser} fontSize="3rem" color="#000000" />
       </UserContainer>
       <form onSubmit={handleSubmit}>
-        <Label htmlFor="firstName">Firstname:</Label>
-        <Input
-          type="text"
-          placeholder="Firstname..."
-          pattern="[A-Za-z]*"
-          onChange={handleChange}
-          name="firstName"
-          value={getData.firstName}
-          required
-        />
-        <Label htmlFor="lastname">Lastname:</Label>
-        <Input
-          type="text"
-          placeholder="Lastname..."
-          pattern="[A-Za-z]*"
-          onChange={handleChange}
-          name="lastName"
-          value={getData.lastName}
-          required
-        />
-        <Label htmlFor="date of birth">Date of Birth</Label>
-        <InputDate
-          type="date"
-          onChange={handleChange}
-          name="birthDate"
-          value={getData.birthDate}
-          required
-        />
-        <Label htmlFor="Start Date">Start Date</Label>
-        <InputDate
-          type="date"
-          placeholder="Start Date"
-          onChange={handleChange}
-          name="startDate"
-          value={getData.startDate}
-          required
-        />
+        <Label htmlFor="firstName">
+          Firstname:
+          <Input
+            type="text"
+            placeholder="Firstname..."
+            pattern="[A-Za-z]*"
+            onChange={handleChange}
+            name="firstName"
+            value={getData.firstName}
+            autoComplete="off"
+            required
+          />
+        </Label>
+        <Label htmlFor="lastname">
+          Lastname:
+          <Input
+            type="text"
+            placeholder="Lastname..."
+            pattern="[A-Za-z]*"
+            onChange={handleChange}
+            name="lastName"
+            value={getData.lastName}
+            autoComplete="off"
+            required
+          />
+        </Label>
+        <Label htmlFor="date of birth">
+          Date of Birth
+          <InputDate
+            type="date"
+            onChange={handleChange}
+            name="birthDate"
+            value={getData.birthDate}
+            autoComplete="off"
+            required
+          />
+        </Label>
+        <Label htmlFor="Start Date">
+          Start Date
+          <InputDate
+            type="date"
+            placeholder="Start Date"
+            onChange={handleChange}
+            name="startDate"
+            value={getData.startDate}
+            autoComplete="off"
+            required
+          />
+        </Label>
         <AddressContainer className="address">
           <Address>Adress</Address>
-          <Label htmlFor="street">Street:</Label>
-          <Input
-            type="text"
-            placeholder="Street..."
-            pattern="[A-Za-z]*"
-            onChange={handleChange}
-            name="street"
-            value={getData.street}
-            required
-          />
-          <Label htmlFor="city">City:</Label>
-          <Input
-            type="text"
-            placeholder="City..."
-            pattern="[A-Za-z]*"
-            onChange={handleChange}
-            name="city"
-            value={getData.city}
-            required
-          />
-
-          <StateContainer className="state_container">
-            <Label htmlFor="stateLabel">State:</Label>
-            <Select
-              name="state"
-              value={getData.state}
+          <Label htmlFor="street">
+            Street:
+            <Input
+              type="text"
+              placeholder="Street..."
+              pattern="[A-Za-z]*"
               onChange={handleChange}
+              name="street"
+              value={getData.street}
+              autoComplete="off"
               required
-            >
-              <option></option>
-              {states.map((state, index) => (
-                <Options className="items" key={index}>
-                  {state.name}
-                </Options>
-              ))}
-            </Select>
+            />
+          </Label>
+          <Label htmlFor="city">
+            City:
+            <Input
+              type="text"
+              placeholder="City..."
+              pattern="[A-Za-z]*"
+              onChange={handleChange}
+              name="city"
+              value={getData.city}
+              autoComplete="off"
+              required
+            />
+          </Label>
+          <StateContainer className="state_container">
+            <Label htmlFor="stateLabel">
+              State:
+              <Select
+                name="state"
+                value={getData.state}
+                onChange={handleChange}
+                autoComplete="off"
+                required
+              >
+                <option></option>
+                {states.map((state, index) => (
+                  <Options className="items" key={index}>
+                    {state.name}
+                  </Options>
+                ))}
+              </Select>
+            </Label>
           </StateContainer>
 
-          <Label htmlFor="Zip Code">Zip Code:</Label>
-          <Input
-            type="text"
-            placeholder="Zip Code..."
-            pattern="[0-9]*"
-            onChange={handleChange}
-            name="zipCode"
-            value={getData.zipCode}
-            required
-          />
-
-          <DepartmentContainer className="departmentContainer">
-            <Label htmlFor="departmentLabel">Department:</Label>
-            <Select
-              name="department"
-              value={getData.department}
+          <Label htmlFor="Zip Code">
+            Zip Code:
+            <Input
+              type="text"
+              placeholder="Zip Code..."
+              pattern="[0-9]*"
               onChange={handleChange}
+              name="zipCode"
+              value={getData.zipCode}
+              autoComplete="off"
               required
-            >
-              <option></option>
-              {departments.map((department, index) => (
-                <Options className="items" key={index}>
-                  {department.name}
-                </Options>
-              ))}
-            </Select>
+            />
+          </Label>
+          <DepartmentContainer className="departmentContainer">
+            <Label htmlFor="departmentLabel">
+              Department:
+              <Select
+                name="department"
+                value={getData.department}
+                onChange={handleChange}
+                required
+              >
+                <option></option>
+                {departments.map((department, index) => (
+                  <Options className="items" key={index}>
+                    {department.name}
+                  </Options>
+                ))}
+              </Select>
+            </Label>
           </DepartmentContainer>
         </AddressContainer>
         <SaveBtnContainer className="savebtn_container">
@@ -218,16 +243,16 @@ const UserContainer = styled.div`
   margin-bottom: 1.5rem;
 `;
 const Label = styled.label`
-  margin-top: 10px;
-  color: ${colors.primary};
+  color: ${colors.black};
   font-size: 16px;
 `;
 const Input = styled.input`
   width: 21.3rem;
   border: none;
-  border-bottom: 1.5px solid ${colors.secondary};
+  margin-bottom: 10px;
+  border-bottom: 1.5px solid ${colors.black};
   ::placeholder {
-    color: ${colors.secondary};
+    color: ${colors.black};
     opacity: 0.4;
     font-size: 12px;
   }
@@ -235,9 +260,9 @@ const Input = styled.input`
 const InputDate = styled.input`
   width: 21.3rem;
   border: none;
-  border-bottom: 1.5px solid ${colors.secondary};
+  border-bottom: 1.5px solid ${colors.black};
   colo ::placeholder {
-    color: ${colors.secondary};
+    color: ${colors.black};
     opacity: 0.4;
     font-size: 12px;
   }
@@ -247,7 +272,7 @@ const AddressContainer = styled.div`
   flex-direction: column;
   margin-top: 1rem;
   padding: 5px;
-  border-bottom: 2px solid ${colors.primary};
+  border-bottom: 2px solid ${colors.black};
   width: 100%;
 `;
 const Address = styled.p`
@@ -255,8 +280,8 @@ const Address = styled.p`
   font-size: 16px;
   font-weight: 700;
   display: inline-block;
-  color: ${colors.secondary};
-  border-bottom: 2px solid ${colors.secondary};
+  color: ${colors.black};
+  border-bottom: 2px solid ${colors.black};
 `;
 const Select = styled.select`
   width: 14rem;
@@ -265,25 +290,29 @@ const Select = styled.select`
   justify-content: space-between;
   align-items: center;
   padding: 0px 5px;
-  color: ${colors.white};
+  color: ${colors.black};
   font-size: 16px;
   font-weight: 500;
-  background-color: ${colors.terciary};
-  border: solid 2px ${colors.secondary};
+  background-color: ${colors.white};
+  border: solid 2px ${colors.black};
   border-radius: 3px;
 `;
 const StateContainer = styled.div`
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
   margin-top: 10px;
+  > label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 const DepartmentContainer = styled.div`
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
   margin-top: 10px;
   margin-bottom: 10px;
+  > label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 const Options = styled.option`
@@ -291,10 +320,10 @@ const Options = styled.option`
 `;
 const SaveBtn = styled.button`
   width: 14rem;
-  background-color: ${colors.secondary};
+  background-color: ${colors.black};
   color: ${colors.white};
   font-size: 18px;
-  border: solid 2px ${colors.secondary};
+  border: solid 2px ${colors.black};
   border-radius: 3px;
   margin-top: 1rem;
 `;
