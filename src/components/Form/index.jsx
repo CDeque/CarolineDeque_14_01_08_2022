@@ -74,7 +74,7 @@ export default function Form() {
     <FormContainer className="form_container">
       <UserContainer className="user_container">
         <FontAwesomeIcon icon={faPlus} fontSize="2rem" color="#000000" />
-        <FontAwesomeIcon icon={faUser} fontSize="3rem" color="#000000" />
+        <FontAwesomeIcon icon={faUser} fontSize="2.5rem" color="#000000" />
       </UserContainer>
       <form onSubmit={handleSubmit}>
         <Label htmlFor="firstName">
@@ -82,7 +82,7 @@ export default function Form() {
           <Input
             type="text"
             placeholder="Firstname..."
-            pattern="[A-Za-z]*"
+            pattern="[A-Za-z\]*"
             onChange={handleChange}
             name="firstName"
             value={getData.firstName}
@@ -95,7 +95,7 @@ export default function Form() {
           <Input
             type="text"
             placeholder="Lastname..."
-            pattern="[A-Za-z]*"
+            pattern="[A-Za-\]*"
             onChange={handleChange}
             name="lastName"
             value={getData.lastName}
@@ -133,7 +133,7 @@ export default function Form() {
             <Input
               type="text"
               placeholder="Street..."
-              pattern="[A-Za-z]*"
+              pattern="[A-Za-z\]*"
               onChange={handleChange}
               name="street"
               value={getData.street}
@@ -146,7 +146,7 @@ export default function Form() {
             <Input
               type="text"
               placeholder="City..."
-              pattern="[A-Za-z]*"
+              pattern="[A-Za-z\]*"
               onChange={handleChange}
               name="city"
               value={getData.city}
@@ -179,7 +179,7 @@ export default function Form() {
             <Input
               type="text"
               placeholder="Zip Code..."
-              pattern="[0-9]*"
+              pattern="[0-9\]*"
               onChange={handleChange}
               name="zipCode"
               value={getData.zipCode}
@@ -225,7 +225,7 @@ export default function Form() {
  */
 const FormContainer = styled.div`
   width: 500px;
-  height: 700px;
+  max-height: 750px;
   border-radius: 1rem;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   background-color: ${colors.white};
